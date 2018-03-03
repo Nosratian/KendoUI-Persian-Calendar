@@ -12,5 +12,5 @@ To use these files alongside the original KendoUI files, first replace the kendo
 
 for see sample and how to use please check :"sample.html"
 
-this customiztion developed based on Mohammad Reza Dastouri (https://github.com/mrdmrd/KendoUI_Shamsi) 
+this customiztion developed based on Mohammad Reza Dastouri works. (https://github.com/mrdmrd/KendoUI_Shamsi)
 
