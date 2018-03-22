@@ -1,16 +1,10 @@
-/** 
- * Kendo UI v2018.1.117 (http://www.telerik.com/kendo-ui)                                                                                                                                               
- * Copyright 2018 Telerik AD. All rights reserved.                                                                                                                                                      
- *                                                                                                                                                                                                      
- * Kendo UI commercial licenses may be obtained at                                                                                                                                                      
- * http://www.telerik.com/purchase/license-agreement/kendo-ui-complete                                                                                                                                  
- * If you do not own a commercial license, this file shall be governed by the trial license terms.                                                                                                      
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
+/*!
+* Kendo UI v2018.1.221 (http://www.telerik.com/kendo-ui)                                                                                                                                               
+* Copyright 2018 Telerik AD. All rights reserved.                                                                                                                                                      
+*                                                                                                                                                                                                      
+* Kendo UI commercial licenses may be obtained at                                                                                                                                                      
+* http://www.telerik.com/purchase/license-agreement/kendo-ui-complete                                                                                                                                  
+* If you do not own a commercial license, this file shall be governed by the trial license terms.                                                                                                      
                                                                                                                                                                                                        
                                                                                                                                                                                                        
                                                                                                                                                                                                        
@@ -46,7 +40,7 @@
         ]
     };
     (function ($, undefined) {
-        var kendo = window.kendo, ui = kendo.ui, Widget = ui.Widget, parse = kendo.parseDate, keys = kendo.keys, template = kendo.template, activeElement = kendo._activeElement, DIV = '<div />', SPAN = '<span />', ns = '.kendoDatePickerShamsi', CLICK = 'click' + ns, OPEN = 'open', CLOSE = 'close', CHANGE = 'change', DISABLED = 'disabled', READONLY = 'readonly', DEFAULT = 'k-state-default', FOCUSED = 'k-state-focused', SELECTED = 'k-state-selected', STATEDISABLED = 'k-state-disabled', HOVER = 'k-state-hover', HOVEREVENTS = 'mouseenter' + ns + ' mouseleave' + ns, MOUSEDOWN = 'mousedown' + ns, ID = 'id', MIN = 'min', MAX = 'max', MONTH = 'month', ARIA_DISABLED = 'aria-disabled', ARIA_EXPANDED = 'aria-expanded', ARIA_HIDDEN = 'aria-hidden', calendar = kendo.calendar, isInRange = calendar.isInRange, restrictValue = calendar.restrictValue, isEqualDatePart = calendar.isEqualDatePart, extend = $.extend, proxy = $.proxy,
+        var kendo = window.kendo, ui = kendo.ui, Widget = ui.Widget, parse = kendo.parseDate, keys = kendo.keys, support = kendo.support, template = kendo.template, activeElement = kendo._activeElement, DIV = '<div />', SPAN = '<span />', ns = '.kendoDatePickerShamsi', CLICK = 'click' + ns, UP = support.mouseAndTouchPresent ? kendo.applyEventMap('up', ns.slice(1)) : CLICK, OPEN = 'open', CLOSE = 'close', CHANGE = 'change', DISABLED = 'disabled', READONLY = 'readonly', DEFAULT = 'k-state-default', FOCUSED = 'k-state-focused', SELECTED = 'k-state-selected', STATEDISABLED = 'k-state-disabled', HOVER = 'k-state-hover', HOVEREVENTS = 'mouseenter' + ns + ' mouseleave' + ns, MOUSEDOWN = 'mousedown' + ns, ID = 'id', MIN = 'min', MAX = 'max', MONTH = 'month', ARIA_DISABLED = 'aria-disabled', ARIA_EXPANDED = 'aria-expanded', ARIA_HIDDEN = 'aria-hidden', calendar = kendo.calendar, isInRange = calendar.isInRange, restrictValue = calendar.restrictValue, isEqualDatePart = calendar.isEqualDatePart, extend = $.extend, proxy = $.proxy,
 		DATE = JalaliDate;
         function normalize(options) {
             var parseFormats = options.parseFormats, format = options.format;
@@ -166,7 +160,7 @@
                         return true;
                     }
                     if (key != keys.SPACEBAR) {
-                    	that._current = calendar._move(e);
+                        that._current = calendar._move(e);
                     }
                     handled = true;
                 }
@@ -332,7 +326,7 @@
                     element.removeAttr(DISABLED).removeAttr(READONLY).attr(ARIA_DISABLED, false).on('keydown' + ns, proxy(that._keydown, that)).on('focusout' + ns, proxy(that._blur, that)).on('focus' + ns, function () {
                         that._inputWrapper.addClass(FOCUSED);
                     });
-                    icon.on(CLICK, proxy(that._click, that)).on(MOUSEDOWN, preventDefault);
+                    icon.on(UP, proxy(that._click, that)).on(MOUSEDOWN, preventDefault);
                 } else {
                     wrapper.addClass(disable ? STATEDISABLED : DEFAULT).removeClass(disable ? DEFAULT : STATEDISABLED);
                     element.attr(DISABLED, disable).attr(READONLY, readonly).attr(ARIA_DISABLED, disable);
@@ -395,10 +389,14 @@
                 }
                 that._inputWrapper.removeClass(FOCUSED);
             },
-            _click: function () {
-                var that = this, element = that.element;
+            _click: function (e) {
+                var that = this;
                 that.dateView.toggle();
-                if (!kendo.support.touch && element[0] !== activeElement()) {
+                that._focusElement(e.type);
+            },
+            _focusElement: function (eventType) {
+                var element = this.element;
+                if ((!support.touch || support.mouseAndTouchPresent && !(eventType || '').match(/touch/i)) && element[0] !== activeElement()) {
                     element.focus();
                 }
             },

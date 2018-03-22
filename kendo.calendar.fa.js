@@ -1,16 +1,10 @@
-/** 
- * Kendo UI v2018.1.117 (http://www.telerik.com/kendo-ui)                                                                                                                                               
- * Copyright 2018 Telerik AD. All rights reserved.                                                                                                                                                      
- *                                                                                                                                                                                                      
- * Kendo UI commercial licenses may be obtained at                                                                                                                                                      
- * http://www.telerik.com/purchase/license-agreement/kendo-ui-complete                                                                                                                                  
- * If you do not own a commercial license, this file shall be governed by the trial license terms.                                                                                                      
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
+/*!
+* Kendo UI v2018.1.221 (http://www.telerik.com/kendo-ui)                                                                                                                                               
+* Copyright 2018 Telerik AD. All rights reserved.                                                                                                                                                      
+*                                                                                                                                                                                                      
+* Kendo UI commercial licenses may be obtained at                                                                                                                                                      
+* http://www.telerik.com/purchase/license-agreement/kendo-ui-complete                                                                                                                                  
+* If you do not own a commercial license, this file shall be governed by the trial license terms.                                                                                                      
                                                                                                                                                                                                        
                                                                                                                                                                                                        
                                                                                                                                                                                                        
@@ -74,7 +68,7 @@
                         return;
                     }
                     if (that._view.name != 'month' || options.selectable == 'single') {
-                    	that._click($(link));
+                        that._click($(link));
                     }
                 }).on('mouseup' + ns, 'table.k-content, .k-footer', function () {
                     that._focusView(that.options.focusOnNav !== false);
@@ -116,7 +110,7 @@
             options: {
                 name: 'CalendarShamsi',
                 value: null,
-                min: new DATE(1278, 11, 1), 
+                min: new DATE(1278, 11, 1),
                 max: new DATE(1478, 11, 1),
                 dates: [],
                 disableDates: null,
@@ -305,7 +299,7 @@
                         return +that._validateValue(new Date(value.setHours(0, 0, 0, 0))) === +value;
                     }
                 });
-                that._selectDates = validSelectedDates.length > 0 ? validSelectedDates : that._selectDates;
+                that._selectDates = validSelectedDates.length > 0 ? validSelectedDates : datesUnique.length === 0 ? datesUnique : that._selectDates;
                 that._visualizeSelectedDatesInView();
             },
             value: function (value) {
@@ -475,16 +469,16 @@
                 if (e.target === that._table[0]) {
                     that._active = true;
                 }
-                    if (key == keys.RIGHT && !isRtl || key == keys.LEFT && isRtl) {
+                if (key == keys.RIGHT && !isRtl || key == keys.LEFT && isRtl) {
                     value = 1;
-                        prevent = true;
-                    } else if (key == keys.LEFT && !isRtl || key == keys.RIGHT && isRtl) {
+                    prevent = true;
+                } else if (key == keys.LEFT && !isRtl || key == keys.RIGHT && isRtl) {
                     value = -1;
-                        prevent = true;
-                    } else if (key == keys.UP) {
+                    prevent = true;
+                } else if (key == keys.UP) {
                     value = index === 0 ? -7 : -4;
-                        prevent = true;
-                    } else if (key == keys.DOWN) {
+                    prevent = true;
+                } else if (key == keys.DOWN) {
                     value = index === 0 ? 7 : 4;
                     prevent = true;
                 } else if (key == keys.SPACEBAR) {
@@ -495,8 +489,8 @@
                     temp = view[method](currentValue);
                     currentValue = new DATE(temp.getFullYear(), temp.getMonth(), temp.getDate(), currentValue.getHours(), currentValue.getMinutes(), currentValue.getSeconds(), currentValue.getMilliseconds());
                     currentValue.setFullYear(temp.getFullYear());
-                        prevent = true;
-                    }
+                    prevent = true;
+                }
                 if (e.ctrlKey) {
                     if (key == keys.RIGHT && !isRtl || key == keys.LEFT && isRtl) {
                         that.navigateToFuture();
@@ -539,7 +533,7 @@
                             that.selectable._lastActive = $(that._cell[0]);
                             that.trigger(CHANGE);
                         } else {
-                        	that._click($(that._cell[0].firstChild));
+                            that._click($(that._cell[0].firstChild));
                         }
                         prevent = true;
                     } else if (key == keys.PAGEUP) {
@@ -566,10 +560,10 @@
                                     that._class(FOCUSED, currentValue);
                                 }
                             } else {
-                            	that._focus(restrictValue(currentValue, options.min, options.max));
-                        	}
-                    	}
-                	}
+                                that._focus(restrictValue(currentValue, options.min, options.max));
+                            }
+                        }
+                    }
                 }
                 if (prevent) {
                     e.preventDefault();
@@ -878,6 +872,7 @@
             firstVisibleDay: function (date, calendarInfo) {
                 calendarInfo = calendarInfo || kendo.culture().calendar;
                 var firstDay = calendarInfo.firstDay, firstVisibleDay = new DATE(date.getFullYear(), date.getMonth(), 1, date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+                //firstVisibleDay.setFullYear(date.getFullYear());
                 while (firstVisibleDay.getDay() != firstDay) {
                     calendar.setTime(firstVisibleDay, -1 * MS_PER_DAY);
                 }
@@ -1238,7 +1233,9 @@
             e.preventDefault();
         }
         function createDate(year, month, date) {
+            //var leapYear = 1904;
             var dateObject = new DATE(year, month, date);
+            //dateObject.setFullYear(year);
             return dateObject;
         }
         function getCalendarInfo(culture) {
