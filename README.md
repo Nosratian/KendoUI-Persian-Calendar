@@ -10,5 +10,8 @@ Using these files, you can use kendoDatePicker and kendoDatePickerShamsi togethe
 
 To use these files alongside the original KendoUI files, first replace the kendo.web.js file on the original file (English version). Then use the two files kendo.Calendar.fa.js and kendo.DatePicker.fa.js in the same way as in the sample file (sample.html).
 
-for see sample and how to use please check :"sample.html"
+For see sample and how to use please check :"sample.html".
+
+For download old versions please see "releases" section (https://github.com/MahdiNosratian/KendoUI-Persian-Calendar/releases).
+
 
